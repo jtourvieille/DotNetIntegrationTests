@@ -6,7 +6,7 @@ Cette série de modules a pour vocation de fournir un template de test d'intégr
 
 ## [Module 1: création du projet de test](./modules/Module%201%20création%20du%20projet%20de%20test/doc/Readme.md)
 
-## Module 2: lancement des appels http
+## [Module 2: lancement des appels http](./modules/Module%202%20lancement%20des%20appels%20http/doc/Readme.md)
 
 ## Module 3: remplacement du système de log
 
