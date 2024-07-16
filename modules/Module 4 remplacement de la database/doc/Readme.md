@@ -221,3 +221,76 @@ Enfin, on n'oublie pas de stopper & disposer le container une fois le scénario 
 await _msSqlContainer.StopAsync();
 await _msSqlContainer.DisposeAsync().AsTask();
 ```
+
+## Population de la base de données
+
+On va introduire des données qui nous permettrons d'effectuer les tests. Pour cela, créer une méthode PopulateDatabaseAsync comme suit:
+
+```
+private async Task PopulateDatabaseAsync()
+{
+    await using SqlConnection sqlConnection = new SqlConnection(_msSqlContainer.GetConnectionString());
+
+    await using var sqlCommand = new SqlCommand
+    {
+        Connection = sqlConnection,
+        CommandText = @"
+            CREATE TABLE [dbo].[WeatherForecast] (
+                [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                [Date] DATE NOT NULL,
+                [TemperatureC] INT NOT NULL,
+                [Summary] NVARCHAR(2000) NULL
+            );
+
+            INSERT INTO [dbo].[WeatherForecast] ([Date], [TemperatureC], [Summary])
+            VALUES
+                ('2022-01-01T00:00:00Z', 25, 'Hot'),
+                ('2022-01-02T00:00:00Z', 20, 'Warm'),
+                ('2022-01-03T00:00:00Z', 15, 'Cool'),
+                ('2022-01-04T00:00:00Z', 10, 'Cold'),
+                ('2022-01-05T00:00:00Z', 5, 'Freezing');
+        "
+    };
+
+    sqlConnection.Open();
+
+    await sqlCommand.ExecuteNonQueryAsync();
+}
+```
+
+Puis l'appeler dans la méthode BeforeScenario.
+
+## Utilisation de Respawn
+
+La database est créé. Ce qu'on veut désormais, c'est la retrouver dans le même état chaque fois qu'un scenario est joué, peu importe qu'il ajoute des données, les modifie ou les supprime.
+
+Pour cela, nous allons utiliser la lbrairie Respawn.
+
+Ajouter la référence 
+
+```
+Respawn
+```
+
+à la librairie de tests.
+
+Puis créer la méthode InitializeRespawnAsync comme suit:
+
+```
+private async Task InitializeRespawnAsync()
+{
+    var respawner = await Respawner.CreateAsync(
+        _msSqlContainer.GetConnectionString(),
+        new()
+        {
+            DbAdapter = DbAdapter.SqlServer,
+            TablesToIgnore = new Respawn.Graph.Table[] { "WeatherForecast" }
+        });
+
+    await respawner.ResetAsync(_msSqlContainer.GetConnectionString());
+}
+```
+
+Méthode qu'il faudra évidemment appeler dans le BeforeScenario, après l'initialisation du container & le remplissage de la database.
+
+Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%204%20remplacement%20de%20la%20database/src/MyApi)
