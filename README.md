@@ -10,8 +10,8 @@ Cette série de modules a pour vocation de fournir un template de test d'intégr
 
 ## [Module 3: remplacement du système de log](./modules/Module%203%20remplacement%20du%20système%20de%20log/doc/Readme.md)
 
-## Module 3: remplacement de la database
+## [Module 4: remplacement de la database](./modules/Module%204%20remplacement%20de%20la%20database/doc/Readme.md)
 
-## Module 4: ajout d'un système d'authentification
+## Module 5: ajout d'un système d'authentification
 
-## Module 5: appels services externes
+## Module 6: appels services externes
