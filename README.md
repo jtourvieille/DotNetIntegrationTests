@@ -12,6 +12,4 @@ Cette série de modules a pour vocation de fournir un template de test d'intégr
 
 ## [Module 4: remplacement de la database](./modules/Module%204%20remplacement%20de%20la%20database/doc/Readme.md)
 
-## Module 5: ajout d'un système d'authentification
-
-## Module 6: appels services externes
+## [Module 4bis: remplacement de la database in memory](./modules/Module%204bis%20remplacement%20de%20la%20database%20in%20memory/doc/Readme.md)
