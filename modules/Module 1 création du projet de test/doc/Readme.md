@@ -37,7 +37,7 @@ au projet de test.
 
 Ensuite, il nous faut ajouter une classe permettant de définir l'implémentation des steps.
 
-```
+```cs
 using TechTalk.SpecFlow;
 
 namespace MyApi.WebApi.Tests.Features;
@@ -77,3 +77,5 @@ Pour le moment, on laisse le contenu des steps vides, cette classe n'est qu'un e
 ![runtests](img/runtests.png)
 
 Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%201%20création%20du%20projet%20de%20test/src/)
+
+[suivant >](../../Module%202%20lancement%20des%20appels%20http/doc/Readme.md)

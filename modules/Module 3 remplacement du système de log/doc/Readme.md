@@ -6,7 +6,7 @@ Démarrer avec le projet créé au [module 2](https://github.com/jtourvieille/Do
 
 Pour commencer, ajoutons un système de log. Cela se fait très simplement en ajoutant la ligne
 
-```
+```cs
 builder.Logging.AddConsole();
 ```
 
@@ -16,7 +16,7 @@ dans le fichier Program.cs. On choisit ici arbitrairement le log console pour de
 
 Puisque l'initialisation de l'application est faite via 
 
-```
+```cs
 WebApplicationFactory<Program>()
 ```
 
@@ -26,7 +26,7 @@ Ce que nous souhaitons, c'est pouvoir remplacer ce système de logging choisi po
 
 Nous allons d'abord commencer par le supprimer, en ajoutant les lignes suivantes dans le fichier InitWebApplicationFactory:
 
-```
+```cs
 var application = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
 {
     builder.ConfigureTestServices(services =>
@@ -40,7 +40,7 @@ On va venir ici configurer des services spécifiquement pour les tests.
 
 La méthode RemoveLogging:
 
-```
+```cs
 private static void RemoveLogging(IServiceCollection services)
 {
     services.RemoveAll(typeof(ILogger<>));
@@ -54,7 +54,7 @@ Enfin, nous pouvons ajouter notre propre service de logging.
 
 Ici, nous allons utiliser le NullLogger fourni par Microsoft, qui permet de ne logguer nul part. Pour ce faire, il suffit de modifier légèrement l'implémentation précédente:
 
-```
+```cs
 var application = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
 {
     builder.ConfigureTestServices(services =>
@@ -63,7 +63,7 @@ var application = new WebApplicationFactory<Program>().WithWebHostBuilder(builde
     });
 });
 ```
-```
+```cs
 private static void ReplaceLogging(IServiceCollection services)
 {
     services.RemoveAll(typeof(ILogger<>));
@@ -73,3 +73,5 @@ private static void ReplaceLogging(IServiceCollection services)
 ```
 
 Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%203%20remplacement%20du%20système%20de%20log/src/MyApi)
+
+[< précédent](../../Module%202%20lancement%20des%20appels%20http/doc/Readme.md) | [suivant >](../../Module%204%20remplacement%20de%20la%20database/doc/Readme.md)

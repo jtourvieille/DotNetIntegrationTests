@@ -22,7 +22,7 @@ Enfin, ajouter la librairie de test _Microsoft.AspNetCore.Mvc.Testing_.
 
 Ceci nous permet de pouvoir initialiser notre WebApplication.
 
-```
+```cs
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 using TechTalk.SpecFlow;
@@ -90,7 +90,7 @@ Features/WeatherWebApiSteps.cs
 
 avec le contenu suivant:
 
-```
+```cs
 namespace MyApi.WebApi.Tests.Features;
 
 using Hooks;
@@ -128,10 +128,12 @@ internal class WeatherWebApiSteps
 
 Enfin, pour que le program soit accessible, il faut ajouter une classe partielle sur Program.cs:
 
-```
+```cs
 public partial class Program
 {
 }
 ```
 
 Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%202%20lancement%20des%20appels%20http/src/MyApi)
+
+[< précédent](../../Module%201%20création%20du%20projet%20de%20test/doc/Readme.md) | [suivant >](../../Module%203%20remplacement%20du%20système%20de%20log/doc/Readme.md)

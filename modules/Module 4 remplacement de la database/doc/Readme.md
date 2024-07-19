@@ -6,7 +6,7 @@ Pour commencer, nous allons créer une database dans le projet d'implémentation
 
 Dans une invite de commande de type powershell, lancer la commande suivante:
 
-```
+```sh
 docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=<YourStrong@Passw0rd>" -p 2024:1433 --name sql1 --hostname sql1 -d mcr.microsoft.com/mssql/server:2022-latest
 ```
 
@@ -24,7 +24,7 @@ Puis créer une database _Weather_:
 
 Créer ensuite la table WeatherForecast:
 
-```
+```sql
 CREATE TABLE [dbo].[WeatherForecast](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Date] [date] NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE [dbo].[WeatherForecast](
 
 Enfin, on va l'alimenter avec des données:
 
-```
+```sql
 INSERT [dbo].[WeatherForecast] ([Date], [TemperatureC], [Summary]) VALUES (CAST(N'2024-01-01' AS Date), -5, N'Freezing')
 GO
 INSERT [dbo].[WeatherForecast] ([Date], [TemperatureC], [Summary]) VALUES (CAST(N'2024-07-01' AS Date), 25, N'Chilly')
@@ -60,7 +60,7 @@ Microsoft.EntityFrameworkCore.SqlServer
 
 Puis on ajoute la chaine de connexion dans le fichier appsettings.json:
 
-```
+```cs
 "ConnectionStrings": {
   "WeatherContext": "Data Source=127.0.0.1,2024;Initial Catalog=Weather;User Id=Sa;Password=<YourStrong@Passw0rd>;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 }
@@ -68,7 +68,7 @@ Puis on ajoute la chaine de connexion dans le fichier appsettings.json:
 
 Puis Créer le WeatherContext:
 
-```
+```cs
 using Microsoft.EntityFrameworkCore;
 
 namespace MyApi.WebApi;
@@ -101,7 +101,7 @@ public class WeatherContext : DbContext
 
 ```
 
-```
+```cs
 public class DbWeatherForecast
 {
     public int Id { get; set; }
@@ -117,7 +117,7 @@ public class DbWeatherForecast
 
 Ensuite, on peut le référencer dans notre démarrage d'application:
 
-```
+```cs
 var connectionString = builder.Configuration.GetSection("ConnectionStrings")["WeatherContext"];
 
 builder.Services.AddDbContext<WeatherContext>(options =>
@@ -129,7 +129,7 @@ builder.Services.AddDbContext<WeatherContext>(options =>
 
 Il ne nous reste plus qu'à utiliser notre contexte dans le controller afin de renvoyer les données de la base.
 
-```
+```cs
 using Microsoft.AspNetCore.Mvc;
 
 namespace MyApi.WebApi.Controllers;
@@ -174,7 +174,7 @@ dans le projet de tests.
 
 On va ensuite créer un MsSqlContainer pour héberger notre database:
 
-```
+```cs
 private MsSqlContainer _msSqlContainer = null!;
 
 [...]
@@ -187,7 +187,7 @@ await _msSqlContainer.StartAsync();
 
 Puis on va créer la méthode ReplaceDatabase:
 
-```
+```cs
 private void ReplaceDatabase(IServiceCollection services)
 {
     services.RemoveAll<DbContextOptions<WeatherContext>>();
@@ -203,7 +203,7 @@ private void ReplaceDatabase(IServiceCollection services)
 
 qu'on appellera à la suite du ReplaceLogging:
 
-```
+```cs
 var application = new WebApplicationFactory<Program>()
     .WithWebHostBuilder(builder =>
     {
@@ -217,7 +217,7 @@ var application = new WebApplicationFactory<Program>()
 
 Enfin, on n'oublie pas de stopper & disposer le container une fois le scénario terminé:
 
-```
+```cs
 await _msSqlContainer.StopAsync();
 await _msSqlContainer.DisposeAsync().AsTask();
 ```
@@ -226,7 +226,7 @@ await _msSqlContainer.DisposeAsync().AsTask();
 
 On va introduire des données qui nous permettrons d'effectuer les tests. Pour cela, créer une méthode PopulateDatabaseAsync comme suit:
 
-```
+```cs
 private async Task PopulateDatabaseAsync()
 {
     await using SqlConnection sqlConnection = new SqlConnection(_msSqlContainer.GetConnectionString());
@@ -276,7 +276,7 @@ Respawn
 
 Puis créer la méthode InitializeRespawnAsync comme suit:
 
-```
+```cs
 private async Task InitializeRespawnAsync()
 {
     var respawner = await Respawner.CreateAsync(
@@ -294,3 +294,5 @@ private async Task InitializeRespawnAsync()
 Méthode qu'il faudra évidemment appeler dans le BeforeScenario, après l'initialisation du container & le remplissage de la database.
 
 Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%204%20remplacement%20de%20la%20database/src/MyApi)
+
+[< précédent](../../Module%203%20remplacement%20du%20système%20de%20log/doc/Readme.md) | [suivant >](../../Module%204bis%20remplacement%20de%20la%20database%20in%20memory/doc/Readme.md)

@@ -13,3 +13,5 @@ Cette série de modules a pour vocation de fournir un template de test d'intégr
 ## [Module 4: remplacement de la database](./modules/Module%204%20remplacement%20de%20la%20database/doc/Readme.md)
 
 ## [Module 4bis: remplacement de la database in memory](./modules/Module%204bis%20remplacement%20de%20la%20database%20in%20memory/doc/Readme.md)
+
+## [Module 5: Ajout de tests](./modules/Module%205%20ajout%20de%20tests/doc/Readme.md)

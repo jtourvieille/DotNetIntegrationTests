@@ -14,7 +14,7 @@ Microsoft.EntityFrameworkCore.InMemory
 
 Puis créer la méthode ReplaceDatabase dans InitWebApplicationFactory:
 
-```
+```cs
 private static void ReplaceDatabase(IServiceCollection services)
 {
     services.RemoveAll<DbContextOptions<WeatherContext>>();
@@ -27,7 +27,7 @@ private static void ReplaceDatabase(IServiceCollection services)
 
 Puis on l'appelle dans ConfigureTestServices, après le remplacement du logging:
 
-```
+```cs
 builder.ConfigureTestServices(services =>
 {
     ReplaceLogging(services);
@@ -37,7 +37,7 @@ builder.ConfigureTestServices(services =>
 
 Ensuite, il nous faut ajouter la base de données au DI de Specflow, pour qu'il puisse la récupérer. Pour cela, on va ajouter une classe InMemoryDatabase qui contiendra des méthodes taggués BeforeScenario & AfterScenario:
 
-```
+```cs
 using BoDi;
 using Microsoft.EntityFrameworkCore;
 using TechTalk.SpecFlow;
@@ -77,7 +77,9 @@ Evidemment, il est toujours possible d'initialiser la database avec des données
 
 Par contre, utiliser Respawner ici n'apporte pas grand chose, puisque la base de données qu'on a initialisée est recréée à chaque scenario. En revanche, ce qui peut être intéressant de mettre en place, est le jeu en séquentiel des tests. En effet, un test peut avoir un comportement non idempotent vis-à-vis de la base de données. Il ne faudrait pas que cela vienne perturber d'autres tests. Pour cela, il faut simplement ajouter cet attribut dans le projet de tests:
 
-```
+```cs
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
 
 ```
+
+[< précédent](../../Module%204%20remplacement%20de%20la%20database/doc/Readme.md) | [suivant >](../../Module%205%20ajout%20de%20tests/doc/Readme.md)
