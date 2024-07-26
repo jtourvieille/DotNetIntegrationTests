@@ -20,7 +20,6 @@ Scenario: Get weather forecast for one date with no forecast
 Scenario: Get weather forecast for one date with existing forecast
 	When I make a GET request to 'weatherforecast/2023-01-02'
 	Then the response status code is '200'
-	And the response body is
-		"""
-		{"Date":"2023-01-02","TemperatureC":2,"TemperatureF":35,"Summary":"Bracing"}
-		"""
+	And the response is
+	| Date       | TemperatureC | Summary |
+	| 2023-01-02 | 2            | Bracing |

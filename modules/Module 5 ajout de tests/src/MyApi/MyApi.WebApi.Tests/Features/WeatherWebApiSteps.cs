@@ -5,6 +5,7 @@ using System.Net;
 using System.Text.Json;
 using BoDi;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 [Binding]
 internal class WeatherWebApiSteps
@@ -52,14 +53,22 @@ internal class WeatherWebApiSteps
         Assert.Equal(expected, _scenarioContext.Get<HttpResponseMessage>(ResponseKey).StatusCode);
     }
 
-    [Then(@"the response body is")]
-    public async Task ThenTheResponseBodyIs(string expectedJsonBody)
+    [Then(@"the response is")]
+    public async Task ThenTheResponseIs(Table table)
     {
         var response = await _scenarioContext.Get<HttpResponseMessage>(ResponseKey).Content.ReadAsStringAsync();
 
-        var expected = JsonSerializer.Deserialize<WeatherForecast>(expectedJsonBody);
-        var actual = JsonSerializer.Deserialize<WeatherForecast>(response);
+        var expected = table.CreateInstance<WeatherForecast>();
+        var actual = JsonSerializer.Deserialize<WeatherForecast>(response, new JsonSerializerOptions
+        {
+            IgnoreReadOnlyProperties = true,
+            PropertyNameCaseInsensitive = true
+        });
 
-        Assert.Equal(expected, actual);
+        Assert.NotNull(actual);
+        Assert.Equal(expected.Date, actual.Date);
+        Assert.Equal(expected.TemperatureC, actual.TemperatureC);
+        Assert.Equal(expected.TemperatureF, actual.TemperatureF);
+        Assert.Equal(expected.Summary, actual.Summary);
     }
 }

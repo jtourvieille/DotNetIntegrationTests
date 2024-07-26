@@ -2,7 +2,7 @@
 
 On repart des sources du module 4 [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%204%20remplacement%20de%20la%20database/src/MyApi) pour la solution.
 
-L'idée ici est de pouvoir ajouter une fonctionnalité permettant de requêter notre ressource WeatherForecast par date.
+L'idée ici est de pouvoir ajouter une fonctionnalité permettant de requêter notre ressource _WeatherForecast_ par date.
 
 Commençons par ajouter une première version d'un test
 
@@ -22,8 +22,6 @@ public WeatherForecast? Get(DateOnly date)
     return null;
 }
 ```
-
-Et bien prendre soin de supprimer le nom de la première route.
 
 Enfin, il conviendrait d'adapter le SwaggerGen pour prendre en charge le type DateOnly, plutôt récent:
 
@@ -46,7 +44,7 @@ Background:
 	| 2023-05-03 | Chilly   | 17           |
 ```
 
-Pour nous permettre d'accéder à la base de données du côté tests, il nous faut l'enregistrer dans le conteneur IoC de Specflow. Pour ceci, il nous faut modifier la méthode ReplaceDatabase comme suit:
+Pour nous permettre d'accéder à la base de données du côté tests, il nous faut l'enregistrer dans le conteneur IoC de _Specflow_. Pour ceci, il nous faut modifier la méthode _ReplaceDatabase_ comme suit:
 
 ```cs
 private void ReplaceDatabase(IServiceCollection services, IObjectContainer objectContainer)
@@ -68,7 +66,7 @@ private void ReplaceDatabase(IServiceCollection services, IObjectContainer objec
 }
 ```
 
-Ceci nous permet de résoudre notre WeatherContext dans le nouveau step que nous pouvons désormais implémenter:
+Ceci nous permet de résoudre notre _WeatherContext_ dans le nouveau step que nous pouvons désormais implémenter:
 
 ```cs
 [Given("the existing forecast are")]
@@ -90,7 +88,7 @@ public void GivenTheExistingWeatherForecastAre(Table table)
 }
 ```
 
-Enfin, __supprimer__ les données qu'on avait initialisé dans InitWebApplicationFactory via la méthode PopulateDatabaseAsync:
+Enfin, __supprimer__ les données qu'on avait initialisé dans _InitWebApplicationFactory_ via la méthode _PopulateDatabaseAsync_:
 
 ```sql
 INSERT INTO [dbo].[WeatherForecast] ([Date], [TemperatureC], [Summary])
@@ -102,7 +100,7 @@ VALUES
     ('2022-01-05T00:00:00Z', 5, 'Freezing');
 ```
 
-ne pas oublier également de __supprimer__ l'exception pour la table dans la partie Respawn:
+ne pas oublier également de __supprimer__ l'exception pour la table dans la partie _Respawn_:
 
 ```cs
 TablesToIgnore = new Respawn.Graph.Table[] { "WeatherForecast" }
@@ -116,28 +114,31 @@ On va maintenant ajouter un test qui permet de récupérer une prévision exista
 Scenario: Get weather forecast for one date with existing forecast
 	When I make a GET request to 'weatherforecast/2023-01-02'
 	Then the response status code is '200'
-	And the response body is
-		"""
-		{
-			"date": "2023-01-02",
-			"summary": "Bracing",
-			"temperatureC": 2
-		}
-		"""
+	And the response is
+    | Date       | TemperatureC | Summary |
+    | 2023-01-02 | 2            | Bracing |
 ```
 
 et le code qui va avec:
 
 ```cs
-[Then(@"the response body is")]
-public async Task ThenTheResponseBodyIs(string expectedJsonBody)
+[Then(@"the response is")]
+public async Task ThenTheResponseIs(Table table)
 {
     var response = await _scenarioContext.Get<HttpResponseMessage>(ResponseKey).Content.ReadAsStringAsync();
 
-    var expected = JsonSerializer.Deserialize<WeatherForecast>(expectedJsonBody);
-    var actual = JsonSerializer.Deserialize<WeatherForecast>(response);
+    var expected = table.CreateInstance<WeatherForecast>();
+    var actual = JsonSerializer.Deserialize<WeatherForecast>(response, new JsonSerializerOptions
+    {
+        IgnoreReadOnlyProperties = true,
+        PropertyNameCaseInsensitive = true
+    });
 
-    Assert.Equal(expected, actual);
+    Assert.NotNull(actual);
+    Assert.Equal(expected.Date, actual.Date);
+    Assert.Equal(expected.TemperatureC, actual.TemperatureC);
+    Assert.Equal(expected.TemperatureF, actual.TemperatureF);
+    Assert.Equal(expected.Summary, actual.Summary);
 }
 ```
 
@@ -162,6 +163,41 @@ public WeatherForecast? Get(DateOnly date)
         Summary = dbWeather.Summary
     };
 }
+```
+
+Le test ne fonctionne pas encore tout à fait car ici, on manipule une _DateOnly_ qui n'a pas de _ValueRetriever_ associé (comme mentionné [ici](https://github.com/SpecFlowOSS/SpecFlow/tree/master/TechTalk.SpecFlow/Assist/ValueRetrievers)). Il nous faut donc créer un _DateOnlyValueRetriever.cs_:
+
+```cs
+public class DateOnlyValueRetriever : StructRetriever<DateOnly>
+{
+    /// <summary>
+    /// Gets or sets the DateTimeStyles to use when parsing the string value.
+    /// </summary>
+    /// <remarks>Defaults to DateTimeStyles.None.</remarks>
+    public static DateTimeStyles DateTimeStyles { get; set; } = DateTimeStyles.None;
+
+    protected override DateOnly GetNonEmptyValue(string value)
+    {
+        DateTime.TryParse(value, CultureInfo.CurrentCulture, DateTimeStyles, out DateTime dateTimeValue);
+        return DateOnly.FromDateTime(dateTimeValue);
+    }
+}
+
+```
+
+Enfin, on spécifie à Specflow qu'il doit utiliser ce nouveau retriever, à travers l'ajout d'une classe _CustomValueRetrievers_:
+
+```cs
+[Binding]
+public static class CustomValueRetrievers
+{
+    [BeforeTestRun]
+    public static void BeforeTestRun()
+    {
+        Service.Instance.ValueRetrievers.Register(new DateOnlyValueRetriever());
+    }
+}
+
 ```
 
 Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%205%20ajout%20de%20tests/src/MyApi)

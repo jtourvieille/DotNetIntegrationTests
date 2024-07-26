@@ -6,13 +6,13 @@ Ici, nous allons utiliser une version "dégradée", puisqu'elle fait appel à un
 
 On repart des sources [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%203%20remplacement%20du%20syst%C3%A8me%20de%20log/src/MyApi) pour la solution. On déroule les étapes de création de la database du [module 4](https://github.com/jtourvieille/DotNetIntegrationTests/blob/main/modules/Module%204%20remplacement%20de%20la%20database/doc/Readme.md), ainsi que son utilisation dans l'implémentation.
 
-Commencer par ajouter une référence sur la librairie:
+Dans le projet de test, ajouter une référence à
 
 ```
 Microsoft.EntityFrameworkCore.InMemory
 ```
 
-Puis créer la méthode ReplaceDatabase dans InitWebApplicationFactory:
+Puis créer la méthode _ReplaceDatabase_ dans _InitWebApplicationFactory_:
 
 ```cs
 private static void ReplaceDatabase(IServiceCollection services)
@@ -25,7 +25,7 @@ private static void ReplaceDatabase(IServiceCollection services)
 }
 ```
 
-Puis on l'appelle dans ConfigureTestServices, après le remplacement du logging:
+Puis on l'appelle dans _ConfigureTestServices_, après le remplacement du logging:
 
 ```cs
 builder.ConfigureTestServices(services =>
@@ -35,7 +35,7 @@ builder.ConfigureTestServices(services =>
 });
 ```
 
-Ensuite, il nous faut ajouter la base de données au DI de Specflow, pour qu'il puisse la récupérer. Pour cela, on va ajouter une classe InMemoryDatabase qui contiendra des méthodes taggués BeforeScenario & AfterScenario:
+Ensuite, il nous faut ajouter la base de données au DI de Specflow, pour qu'il puisse la récupérer. Pour cela, on va ajouter une classe _InMemoryDatabase_ qui contiendra des méthodes taggués BeforeScenario & AfterScenario:
 
 ```cs
 using BoDi;

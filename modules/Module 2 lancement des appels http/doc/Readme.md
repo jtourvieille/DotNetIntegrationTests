@@ -12,7 +12,7 @@ Ajouter la classe qui va permettre de démarrer notre application:
 Hooks/InitWebApplicationFactory.cs
 ```
 
-Ajouter ensuite l'attribut _BeforeScenario_ pour pouvoir exécuter du code avant le démarrage d'un scénario gherkin. Ceci va nous permettre de démarrer notre serveur afin de pouvoir le requêter par la suite.
+Ajouter ensuite l'attribut _BeforeScenario_ pour pouvoir exécuter du code avant le démarrage d'un scénario Gherkin. Ceci va nous permettre de démarrer notre serveur afin de pouvoir le requêter par la suite.
 
 Commencer par ajouter une référence vers le projet web:
 
@@ -20,7 +20,19 @@ Commencer par ajouter une référence vers le projet web:
 
 Enfin, ajouter la librairie de test _Microsoft.AspNetCore.Mvc.Testing_.
 
-Ceci nous permet de pouvoir initialiser notre WebApplication.
+## Visiblité du de la classe Program
+
+Pour que la classe _Program_ soit visible depuis le projet de tests, il faut ajouter une classe partielle à la fin du fichier _Program.cs_:
+
+```cs
+public partial class Program
+{
+}
+```
+
+## Initialisation de la WebApplicationFactory
+
+Nous pouvons désormais initialiser notre WebApplicationFactory.
 
 ```cs
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -124,14 +136,6 @@ internal class WeatherWebApiSteps
     }
 }
 
-```
-
-Enfin, pour que le program soit accessible, il faut ajouter une classe partielle sur Program.cs:
-
-```cs
-public partial class Program
-{
-}
 ```
 
 Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%202%20lancement%20des%20appels%20http/src/MyApi)

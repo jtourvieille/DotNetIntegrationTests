@@ -22,7 +22,7 @@ Puis créer une database _Weather_:
 
 ![DbConf](./img/ssms-dbconf.png)
 
-Créer ensuite la table WeatherForecast:
+Créer ensuite la table _WeatherForecast_:
 
 ```sql
 CREATE TABLE [dbo].[WeatherForecast](
@@ -52,13 +52,13 @@ GO
 
 Il faut maintenant se connecter à la base de données dans notre application.
 
-On commence par référencer EntityFramework, qui sera notre ORM.
+On commence par référencer _EntityFramework_, qui sera notre ORM.
 
 ```
 Microsoft.EntityFrameworkCore.SqlServer
 ```
 
-Puis on ajoute la chaine de connexion dans le fichier appsettings.json:
+Puis on ajoute la chaine de connexion dans le fichier _appsettings.json_:
 
 ```cs
 "ConnectionStrings": {
@@ -66,7 +66,7 @@ Puis on ajoute la chaine de connexion dans le fichier appsettings.json:
 }
 ```
 
-Puis Créer le WeatherContext:
+Puis créer le _WeatherContext_:
 
 ```cs
 using Microsoft.EntityFrameworkCore;
@@ -163,16 +163,14 @@ public class WeatherForecastController : ControllerBase
 
 ## Utilisation de Testcontainers
 
-Référencer les packages
+Dans le projet de tests, référencer les packages
 
 ```
 Microsoft.Data.SqlClient
 Testcontainers.MsSql
 ```
 
-dans le projet de tests.
-
-On va ensuite créer un MsSqlContainer pour héberger notre database:
+On va ensuite créer un _MsSqlContainer_ pour héberger notre database:
 
 ```cs
 private MsSqlContainer _msSqlContainer = null!;
@@ -224,7 +222,7 @@ await _msSqlContainer.DisposeAsync().AsTask();
 
 ## Population de la base de données
 
-On va introduire des données qui nous permettrons d'effectuer les tests. Pour cela, créer une méthode PopulateDatabaseAsync comme suit:
+On va introduire des données qui nous permettrons d'effectuer les tests. Pour cela, créer une méthode _PopulateDatabaseAsync_ comme suit:
 
 ```cs
 private async Task PopulateDatabaseAsync()
@@ -258,23 +256,21 @@ private async Task PopulateDatabaseAsync()
 }
 ```
 
-Puis l'appeler dans la méthode BeforeScenario.
+Puis l'appeler dans la méthode _BeforeScenario_.
 
 ## Utilisation de Respawn
 
-La database est créé. Ce qu'on veut désormais, c'est la retrouver dans le même état chaque fois qu'un scenario est joué, peu importe qu'il ajoute des données, les modifie ou les supprime.
+La database est créée. Ce qu'on veut désormais, c'est la retrouver dans le même état chaque fois qu'un scenario est joué, peu importe qu'il ajoute des données, les modifie ou les supprime. En effet, un test peut créer/modifier/supprimer des données en base, ce qui pertubera le test suivant. Ce que l'on souhaite, c'est connaître notre état de départ de la base.
 
-Pour cela, nous allons utiliser la lbrairie Respawn.
+Pour cela, nous allons utiliser la librairie Respawn.
 
-Ajouter la référence 
+Ajouter la référence suivante au projet de test
 
 ```
 Respawn
 ```
 
-à la librairie de tests.
-
-Puis créer la méthode InitializeRespawnAsync comme suit:
+Puis créer la méthode _InitializeRespawnAsync_ comme suit:
 
 ```cs
 private async Task InitializeRespawnAsync()
@@ -291,7 +287,7 @@ private async Task InitializeRespawnAsync()
 }
 ```
 
-Méthode qu'il faudra évidemment appeler dans le BeforeScenario, après l'initialisation du container & le remplissage de la database.
+Méthode qu'il faudra évidemment appeler dans le _BeforeScenario_, après l'initialisation du container & le remplissage de la database.
 
 Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%204%20remplacement%20de%20la%20database/src/MyApi)
 

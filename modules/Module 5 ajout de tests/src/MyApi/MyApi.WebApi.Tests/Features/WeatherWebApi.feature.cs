@@ -194,8 +194,16 @@ this.FeatureBackground();
 #line 22
  testRunner.Then("the response status code is \'200\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
+                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Date",
+                            "TemperatureC",
+                            "Summary"});
+                table2.AddRow(new string[] {
+                            "2023-01-02",
+                            "2",
+                            "Bracing"});
 #line 23
- testRunner.And("the response body is", "{\"Date\":\"2023-01-02\",\"TemperatureC\":2,\"TemperatureF\":35,\"Summary\":\"Bracing\"}", ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("the response is", ((string)(null)), table2, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

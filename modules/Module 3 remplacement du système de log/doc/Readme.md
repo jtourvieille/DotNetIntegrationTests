@@ -4,13 +4,13 @@ Démarrer avec le projet créé au [module 2](https://github.com/jtourvieille/Do
 
 ## Ajout d'un système de log
 
-Pour commencer, ajoutons un système de log. Cela se fait très simplement en ajoutant la ligne
+Pour commencer, ajoutons un système de log. Dans le fichier _Program.cs_, ajouter la ligne
 
 ```cs
 builder.Logging.AddConsole();
 ```
 
-dans le fichier Program.cs. On choisit ici arbitrairement le log console pour des raisons de simplicité.
+On choisit ici arbitrairement le log console pour des raisons de simplicité.
 
 ## Suppression des références au système de log existant
 
@@ -24,7 +24,7 @@ C'est bien les enregistrement de loggers faits dans l'implémentation de l'appli
 
 Ce que nous souhaitons, c'est pouvoir remplacer ce système de logging choisi pour nos tests.
 
-Nous allons d'abord commencer par le supprimer, en ajoutant les lignes suivantes dans le fichier InitWebApplicationFactory:
+Nous allons d'abord commencer par le supprimer, en ajoutant les lignes suivantes dans le fichier _InitWebApplicationFactory_:
 
 ```cs
 var application = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>
@@ -52,7 +52,7 @@ private static void RemoveLogging(IServiceCollection services)
 
 Enfin, nous pouvons ajouter notre propre service de logging.
 
-Ici, nous allons utiliser le NullLogger fourni par Microsoft, qui permet de ne logguer nul part. Pour ce faire, il suffit de modifier légèrement l'implémentation précédente:
+Ici, nous allons utiliser le _NullLogger_ fourni par Microsoft, qui permet de ne logguer nul part. Pour ce faire, il suffit de modifier légèrement l'implémentation précédente:
 
 ```cs
 var application = new WebApplicationFactory<Program>().WithWebHostBuilder(builder =>

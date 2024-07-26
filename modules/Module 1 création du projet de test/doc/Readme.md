@@ -1,5 +1,11 @@
 # Module 1: création du projet de test
 
+## Qu'allons-nous faire?
+
+Nous allons partir du template de projet WeatherForecast fourni par Microsoft pour y ajouter le nécessaire afin d'y adjoindre des tests d'intégration.
+
+## Instructions
+
 Démarrer avec le projet créé [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/src/MyApi)
 
 Créer un projet de type xUnit Test Project
@@ -10,6 +16,8 @@ Généralement, on suffixe le nom avec _Tests_. Ici on l'appellera donc _MyApi.W
 Dans vos extensions VS, assurez vous que SpecFlow est bien installé.
 
 ![SpecflowExtension](img/SpecflowExtension.png)
+
+Si vous utilisez _Rider_, c'est _Reqnroll_ qu'il vous faudra installer.
 
 Ajouter ensuite un fichier specflow _.feature_ permettant de créer un gherkin.
 
