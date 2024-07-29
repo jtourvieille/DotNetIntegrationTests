@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Dev\\Github\\DotNetIntegrationTests\\src\\MyApi\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{C3A00389-7DC9-4638-83CE-81F615D67125}|MyApi.WebApi.Tests\\MyApi.WebApi.Tests.csproj|c:\\dev\\github\\dotnetintegrationtests\\src\\myapi\\myapi.webapi.tests\\features\\calculatorsteps.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C3A00389-7DC9-4638-83CE-81F615D67125}|MyApi.WebApi.Tests\\MyApi.WebApi.Tests.csproj|solutionrelative:myapi.webapi.tests\\features\\calculatorsteps.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "CalculatorSteps.cs",
+              "DocumentMoniker": "C:\\Dev\\Github\\DotNetIntegrationTests\\src\\MyApi\\MyApi.WebApi.Tests\\Features\\CalculatorSteps.cs",
+              "RelativeDocumentMoniker": "MyApi.WebApi.Tests\\Features\\CalculatorSteps.cs",
+              "ToolTip": "C:\\Dev\\Github\\DotNetIntegrationTests\\src\\MyApi\\MyApi.WebApi.Tests\\Features\\CalculatorSteps.cs",
+              "RelativeToolTip": "MyApi.WebApi.Tests\\Features\\CalculatorSteps.cs",
+              "ViewState": "AQIAAAUAAAAAAAAAAAAUwB8AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-11T11:54:52.61Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
