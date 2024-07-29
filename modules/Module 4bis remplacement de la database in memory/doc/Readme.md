@@ -4,7 +4,13 @@ Le module 4 vient avec certaines contraintes: docker doit être installé et fon
 
 Ici, nous allons utiliser une version "dégradée", puisqu'elle fait appel à une database en mémoire. Cette solution a aussi des inconvénients, qui sont listés [ici](https://learn.microsoft.com/en-us/ef/core/testing/). Parmi les principales, on peut citer l'absence de transaction, la sensibilité à la casse, etc. Il s'agit d'un moyen non conseillé, par qui peut permettre sur des cas simples d'avoir une solution. Une autre alternative serait d'utiliser SQLite, mais même si elle en comporte moins, cette solution est également sujette à des limitations, listées sur la page ci-dessus.
 
-On repart des sources [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%203%20remplacement%20du%20syst%C3%A8me%20de%20log/src/MyApi) pour la solution. On déroule les étapes de création de la database du [module 4](https://github.com/jtourvieille/DotNetIntegrationTests/blob/main/modules/Module%204%20remplacement%20de%20la%20database/doc/Readme.md), ainsi que son utilisation dans l'implémentation.
+Démarrer avec le projet du module 3:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module3
+```
+
+Puis on déroule les étapes de création de la database du [module 4](https://github.com/jtourvieille/DotNetIntegrationTests/blob/main/modules/Module%204%20remplacement%20de%20la%20database/doc/Readme.md), ainsi que son utilisation dans l'implémentation.
 
 Dans le projet de test, ajouter une référence à
 
@@ -80,6 +86,12 @@ Par contre, utiliser Respawner ici n'apporte pas grand chose, puisque la base de
 ```cs
 [assembly: CollectionBehavior(CollectionBehavior.CollectionPerAssembly)]
 
+```
+
+Un repo contenant une solution est disponible ici:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module4bis
 ```
 
 [< précédent](../../Module%204%20remplacement%20de%20la%20database/doc/Readme.md) | [suivant >](../../Module%205%20ajout%20de%20tests/doc/Readme.md)

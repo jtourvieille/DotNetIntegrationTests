@@ -1,6 +1,10 @@
 # Module 5: Ajout de tests
 
-On repart des sources du module 4 [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%204%20remplacement%20de%20la%20database/src/MyApi) pour la solution.
+Démarrer avec le projet du module 4:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module4
+```
 
 L'idée ici est de pouvoir ajouter une fonctionnalité permettant de requêter notre ressource _WeatherForecast_ par date.
 
@@ -200,6 +204,10 @@ public static class CustomValueRetrievers
 
 ```
 
-Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%205%20ajout%20de%20tests/src/MyApi)
+Un repo contenant une solution est disponible ici
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module5
+```
 
 [< précédent](../../Module%204bis%20remplacement%20de%20la%20database%20in%20memory/doc/Readme.md)

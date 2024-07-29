@@ -6,7 +6,11 @@ Nous allons partir du template de projet WeatherForecast fourni par Microsoft po
 
 ## Instructions
 
-Démarrer avec le projet créé [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/src/MyApi)
+Démarrer avec le projet en jouant la commande suivante:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/init
+```
 
 Créer un projet de type xUnit Test Project
 ![xUnit Test Project](img/xunittestproject.png)
@@ -84,6 +88,10 @@ Pour le moment, on laisse le contenu des steps vides, cette classe n'est qu'un e
 
 ![runtests](img/runtests.png)
 
-Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%201%20création%20du%20projet%20de%20test/src/)
+Un repo contenant une solution est disponible ici:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module1
+```
 
 [suivant >](../../Module%202%20lancement%20des%20appels%20http/doc/Readme.md)

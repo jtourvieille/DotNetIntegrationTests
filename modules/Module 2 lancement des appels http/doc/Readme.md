@@ -1,6 +1,10 @@
 # Module 2: lancement des appels http
 
-Démarrer avec le projet créé [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/src/MyApi)
+Démarrer avec le projet du module précédent:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module1
+```
 
 Ajouter un projet de test xUnit ainsi qu'une référence à une librairie _SpecFlow.xUnit_, comme mentionné au [module 1](./../../Module%201%20création%20du%20projet%20de%20test/doc/Readme.md)
 
@@ -138,6 +142,10 @@ internal class WeatherWebApiSteps
 
 ```
 
-Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%202%20lancement%20des%20appels%20http/src/MyApi)
+Un repo contenant une solution est disponible ici:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module2
+```
 
 [< précédent](../../Module%201%20création%20du%20projet%20de%20test/doc/Readme.md) | [suivant >](../../Module%203%20remplacement%20du%20système%20de%20log/doc/Readme.md)

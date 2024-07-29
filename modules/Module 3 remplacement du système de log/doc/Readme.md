@@ -1,6 +1,10 @@
 # Module 3: remplacement du système de log
 
-Démarrer avec le projet créé au [module 2](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%202%20lancement%20des%20appels%20http/src/MyApi)
+Démarrer avec le projet du module précédent:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module2
+```
 
 ## Ajout d'un système de log
 
@@ -72,6 +76,10 @@ private static void ReplaceLogging(IServiceCollection services)
 }
 ```
 
-Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%203%20remplacement%20du%20système%20de%20log/src/MyApi)
+Un repo contenant une solution est disponible ici:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module3
+```
 
 [< précédent](../../Module%202%20lancement%20des%20appels%20http/doc/Readme.md) | [suivant >](../../Module%204%20remplacement%20de%20la%20database/doc/Readme.md)

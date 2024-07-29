@@ -2,6 +2,12 @@
 
 ## Création de la database
 
+Démarrer avec le projet du module précédent:
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module3
+```
+
 Pour commencer, nous allons créer une database dans le projet d'implémentation.
 
 Dans une invite de commande de type powershell, lancer la commande suivante:
@@ -289,6 +295,10 @@ private async Task InitializeRespawnAsync()
 
 Méthode qu'il faudra évidemment appeler dans le _BeforeScenario_, après l'initialisation du container & le remplissage de la database.
 
-Un repo contenant une solution est disponible [ici](https://github.com/jtourvieille/DotNetIntegrationTests/tree/main/modules/Module%204%20remplacement%20de%20la%20database/src/MyApi)
+Un repo contenant une solution est disponible ici
+
+```
+git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module4
+```
 
 [< précédent](../../Module%203%20remplacement%20du%20système%20de%20log/doc/Readme.md) | [suivant >](../../Module%204bis%20remplacement%20de%20la%20database%20in%20memory/doc/Readme.md)
