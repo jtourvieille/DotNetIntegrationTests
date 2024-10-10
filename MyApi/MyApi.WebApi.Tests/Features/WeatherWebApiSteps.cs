@@ -2,10 +2,13 @@
 
 using Hooks;
 using System.Net;
+using System.Text;
 using System.Text.Json;
 using BoDi;
+using Newtonsoft.Json;
 using TechTalk.SpecFlow;
 using TechTalk.SpecFlow.Assist;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 [Binding]
 internal class WeatherWebApiSteps
@@ -14,6 +17,7 @@ internal class WeatherWebApiSteps
     private readonly IObjectContainer _objectContainer;
 
     internal const string ResponseKey = nameof(ResponseKey);
+    internal const string ForecastKey = nameof(ForecastKey);
 
     public WeatherWebApiSteps(ScenarioContext scenarioContext, IObjectContainer objectContainer)
     {
@@ -39,11 +43,41 @@ internal class WeatherWebApiSteps
         weatherContext.SaveChanges();
     }
 
+    [Given("the weather forecast")]
+    public void GivenTheWeatherForecast(Table table)
+    {
+        var row = table.Rows[0];
+
+        var forecast = new WeatherForecast
+        {
+            Date = DateOnly.Parse(row["Date"]),
+            TemperatureC = int.Parse(row["TemperatureC"]),
+            Summary = row["Summary"]
+        };
+
+        _scenarioContext.Add(ForecastKey, forecast);
+    }
+
     [When("I make a GET request to '(.*)'")]
     public async Task WhenIMakeAGetRequestTo(string endpoint)
     {
         var client = _scenarioContext.Get<HttpClient>(InitWebApplicationFactory.HttpClientKey);
         _scenarioContext.Add(ResponseKey, await client.GetAsync(endpoint));
+    }
+
+    [When("I save it")]
+    public async Task WhenISaveIt()
+    {
+        var client = _scenarioContext.Get<HttpClient>(InitWebApplicationFactory.HttpClientKey);
+
+        var weatherForecast = _scenarioContext.Get<WeatherForecast>(ForecastKey);
+
+        var stringContent = new StringContent(
+            JsonConvert.SerializeObject(weatherForecast),
+            Encoding.UTF8,
+            "application/json");
+
+        _scenarioContext.Add(ResponseKey, await client.PostAsync("weatherforecast", stringContent));
     }
 
     [Then(@"the response status code is '(.*)'")]

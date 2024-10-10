@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "avKE/7SN2VlU5Fx36pcd5ovBDE7olJdBRpZ9L9muTps=",
+  "Source": "MyApi.WebApi",
+  "BasePath": "_content/MyApi.WebApi",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

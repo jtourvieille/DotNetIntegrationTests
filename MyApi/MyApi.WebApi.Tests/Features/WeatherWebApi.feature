@@ -17,6 +17,13 @@ Scenario: Get weather forecast for one date with no forecast
 	When I make a GET request to 'weatherforecast/2020-01-01'
 	Then the response status code is '204'
 
+Scenario: Save weather forecast
+	Given the weather forecast
+	| Date       | TemperatureC | Summary |
+	| 2023-01-05 | 5            | Bracing |
+	When I save it
+	Then the response status code is '200'
+
 Scenario: Get weather forecast for one date with existing forecast
 	When I make a GET request to 'weatherforecast/2023-01-02'
 	Then the response status code is '200'

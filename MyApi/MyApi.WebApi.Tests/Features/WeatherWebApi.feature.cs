@@ -167,14 +167,14 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Get weather forecast for one date with existing forecast")]
+        [Xunit.SkippableFactAttribute(DisplayName="Save weather forecast")]
         [Xunit.TraitAttribute("FeatureTitle", "WeatherWebApi")]
-        [Xunit.TraitAttribute("Description", "Get weather forecast for one date with existing forecast")]
-        public void GetWeatherForecastForOneDateWithExistingForecast()
+        [Xunit.TraitAttribute("Description", "Save weather forecast")]
+        public void SaveWeatherForecast()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get weather forecast for one date with existing forecast", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Save weather forecast", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 20
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -188,22 +188,64 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
 this.FeatureBackground();
 #line hidden
-#line 21
- testRunner.When("I make a GET request to \'weatherforecast/2023-01-02\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
-#line 22
- testRunner.Then("the response status code is \'200\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
                             "Date",
                             "TemperatureC",
                             "Summary"});
                 table2.AddRow(new string[] {
+                            "2023-01-05",
+                            "5",
+                            "Bracing"});
+#line 21
+ testRunner.Given("the weather forecast", ((string)(null)), table2, "Given ");
+#line hidden
+#line 24
+ testRunner.When("I save it", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 25
+ testRunner.Then("the response status code is \'200\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Get weather forecast for one date with existing forecast")]
+        [Xunit.TraitAttribute("FeatureTitle", "WeatherWebApi")]
+        [Xunit.TraitAttribute("Description", "Get weather forecast for one date with existing forecast")]
+        public void GetWeatherForecastForOneDateWithExistingForecast()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Get weather forecast for one date with existing forecast", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 27
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 5
+this.FeatureBackground();
+#line hidden
+#line 28
+ testRunner.When("I make a GET request to \'weatherforecast/2023-01-02\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 29
+ testRunner.Then("the response status code is \'200\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+                TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Date",
+                            "TemperatureC",
+                            "Summary"});
+                table3.AddRow(new string[] {
                             "2023-01-02",
                             "2",
                             "Bracing"});
-#line 23
- testRunner.And("the response is", ((string)(null)), table2, "And ");
+#line 30
+ testRunner.And("the response is", ((string)(null)), table3, "And ");
 #line hidden
             }
             this.ScenarioCleanup();

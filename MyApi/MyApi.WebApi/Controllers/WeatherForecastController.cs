@@ -44,4 +44,19 @@ public class WeatherForecastController : ControllerBase
             Summary = dbWeather.Summary
         };
     }
+
+    [HttpPost]
+    public IActionResult Post([FromBody] WeatherForecast weatherForecast)
+    {
+        _weatherContext.WeatherForecasts.Add(new DbWeatherForecast
+        {
+            Date = weatherForecast.Date,
+            TemperatureC = weatherForecast.TemperatureC,
+            Summary = weatherForecast.Summary
+        });
+
+        _weatherContext.SaveChanges();
+
+        return Ok();
+    }
 }

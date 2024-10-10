@@ -6,13 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
-using Testcontainers.MsSql;
+using BoDi;
+using Respawn;
 
 namespace MyApi.WebApi.Tests.Hooks;
-
-using BoDi;
-using Microsoft.Data.SqlClient;
-using Respawn;
 
 [Binding]
 internal class InitWebApplicationFactory
@@ -20,15 +17,9 @@ internal class InitWebApplicationFactory
     internal const string HttpClientKey = nameof(HttpClientKey);
     internal const string ApplicationKey = nameof(ApplicationKey);
 
-    private MsSqlContainer _msSqlContainer = null!;
-
     [BeforeScenario]
     public async Task BeforeScenario(ScenarioContext scenarioContext, IObjectContainer objectContainer)
     {
-        await InitializeMsSqlContainerAsync();
-
-        await PopulateDatabaseAsync();
-
         await InitializeRespawnAsync();
 
         var application = new WebApplicationFactory<Program>()
@@ -48,7 +39,7 @@ internal class InitWebApplicationFactory
     }
 
     [AfterScenario]
-    public async Task AfterScenario(ScenarioContext scenarioContext)
+    public void AfterScenario(ScenarioContext scenarioContext)
     {
         if (scenarioContext.TryGetValue(HttpClientKey, out var client) && client is IDisposable disposable)
         {
@@ -59,9 +50,6 @@ internal class InitWebApplicationFactory
         {
             disposableApplication.Dispose();
         }
-
-        await _msSqlContainer.StopAsync();
-        await _msSqlContainer.DisposeAsync().AsTask();
     }
 
     private static void ReplaceLogging(IServiceCollection services)
@@ -77,57 +65,27 @@ internal class InitWebApplicationFactory
         services.RemoveAll<WeatherContext>();
 
         services.AddDbContext<WeatherContext>(options =>
-            options.UseSqlServer(_msSqlContainer.GetConnectionString(), providerOptions =>
+            options.UseSqlServer(DatabaseHook.MsSqlContainer.GetConnectionString(), providerOptions =>
             {
                 providerOptions.EnableRetryOnFailure();
             }));
 
         var database = new WeatherContext(new DbContextOptionsBuilder<WeatherContext>()
-            .UseSqlServer(_msSqlContainer.GetConnectionString())
+            .UseSqlServer(DatabaseHook.MsSqlContainer.GetConnectionString())
             .Options);
 
         objectContainer.RegisterInstanceAs(database);
     }
 
-    private async Task InitializeMsSqlContainerAsync()
-    {
-        _msSqlContainer = new MsSqlBuilder().Build();
-
-        await _msSqlContainer.StartAsync();
-    }
-
-    private async Task PopulateDatabaseAsync()
-    {
-        await using SqlConnection sqlConnection = new SqlConnection(_msSqlContainer.GetConnectionString());
-
-        await using var sqlCommand = new SqlCommand
-        {
-            Connection = sqlConnection,
-            CommandText = @"
-                CREATE TABLE [dbo].[WeatherForecast] (
-                    [Id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                    [Date] DATE NOT NULL,
-                    [TemperatureC] INT NOT NULL,
-                    [Summary] NVARCHAR(2000) NULL
-                );
-            "
-        };
-
-        sqlConnection.Open();
-
-        await sqlCommand.ExecuteNonQueryAsync();
-    }
-
     private async Task InitializeRespawnAsync()
     {
         var respawner = await Respawner.CreateAsync(
-            _msSqlContainer.GetConnectionString(),
+            DatabaseHook.MsSqlContainer.GetConnectionString(),
             new()
             {
                 DbAdapter = DbAdapter.SqlServer
-                
             });
 
-        await respawner.ResetAsync(_msSqlContainer.GetConnectionString());
+        await respawner.ResetAsync(DatabaseHook.MsSqlContainer.GetConnectionString());
     }
 }
