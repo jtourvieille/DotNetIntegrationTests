@@ -210,4 +210,4 @@ Un repo contenant une solution est disponible ici
 git clone https://github.com/jtourvieille/DotNetIntegrationTests.git --branch feature/module5
 ```
 
-[< précédent](../../Module%204bis%20remplacement%20de%20la%20database%20in%20memory/doc/Readme.md)
+[< précédent](../../Module%204bis%20remplacement%20de%20la%20database%20in%20memory/doc/Readme.md) | [suivant >](../../Module%206%20optimisation/doc/Readme.md)
